@@ -1,0 +1,43 @@
+<div class="d-flex justify-content-between align-items-center">
+    <h2>Users</h2>
+    <p-button (click)="showDialog()" label="Add user"></p-button>
+</div>
+<p-divider />
+
+<div class="card">
+    <p-table [value]="users" [tableStyle]="{ 'min-width': '50rem' }">
+        <ng-template pTemplate="header">
+            <tr>
+                <th width="45%">Name</th>
+                <th width="45%">Genre</th>
+                <th width="10%"></th>
+            </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-user>
+            <tr>
+                <td>{{ user.name }}</td>
+                <td>{{ user.genre == false ? "Mujer" : "Hombre" }}</td>
+                <td class="d-flex gap-5">
+                    <p-button icon="pi pi-pencil" styleClass="p-button-primary"></p-button>
+                    <p-button icon="pi pi-trash" styleClass="p-button-danger"></p-button>
+                </td>
+            </tr>
+        </ng-template>
+    </p-table>
+</div>
+
+<!-- User creating modal -->
+<div class="card flex justify-content-center">
+    <p-dialog header="Add user" [modal]="true" [(visible)]="visible" [style]="{ width: '50vw', height: '320px' }"
+        [draggable]="false" [resizable]="false">
+        <div class="d-flex flex-column">
+            <label>Name</label>
+            <input pInputText type="text" class="p-inputtext-sm" />
+            <label for="">Genre</label>
+            <p-dropdown [options]="genreOptions"></p-dropdown>
+            <div style="text-align: end;">
+                <p-button icon="pi pi-plus" label="Add user"></p-button>
+            </div>
+        </div>
+    </p-dialog>
+</div>

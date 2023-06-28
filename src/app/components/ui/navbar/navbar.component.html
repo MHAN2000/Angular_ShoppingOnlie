@@ -1,0 +1,13 @@
+<div class="navbar">
+    <div class="d-flex">
+        <button [routerLink]="['']" class="navbar-button">Home</button>
+        <p-toast></p-toast>
+        <p-menu #menu [model]="catalogs" [popup]="true"></p-menu>
+        <button class="navbar-button" type="button" (click)="menu.toggle($event)">Catalogs</button>
+    </div>
+    <div class="d-flex">
+        <p-toast></p-toast>
+        <p-menu #menus [model]="userOptions" [popup]="true"></p-menu>
+        <button class="navbar-button" type="button" (click)="menus.toggle($event)"><i class="pi pi-user user-icon"></i></button>
+    </div>
+</div>
