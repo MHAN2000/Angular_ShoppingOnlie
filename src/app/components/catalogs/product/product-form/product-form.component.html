@@ -1,0 +1,9 @@
+<form [formGroup]="productForm" class="d-flex flex-column">
+    <label>Product name</label>
+    <input pInputText type="text" class="p-inputtext-sm" formControlName="productName" id="productName" />
+    <label for="">Description</label>
+    <input pInputText type="text" class="p-inputtext-sm" formControlName="description" id="description" />
+    <div style="text-align: end;">
+        <p-button type="submit" icon="pi pi-plus" label="Add user"></p-button>
+    </div>
+</form>
