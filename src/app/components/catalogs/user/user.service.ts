@@ -2,7 +2,7 @@ import { HttpClient, HttpHeaderResponse, HttpHeaders } from '@angular/common/htt
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { IUser } from './types';
-import { FormGroup } from '@angular/forms';
+import { Form, FormGroup } from '@angular/forms';
 
 const httpOptions = {
   headers: new HttpHeaders(
@@ -28,6 +28,10 @@ export class UserService {
 
   addUser(form: FormGroup): Observable<IUser> {
     return this.http.post<IUser>('/api/user', form.value, httpOptions);
+  }
+
+  updateUser(form: FormGroup, id: number): Observable<IUser> {
+    return this.http.put<IUser>(`/api/user/${id}`, form.value, httpOptions);
   }
 
   getUser(id: number): Observable<IUser> {

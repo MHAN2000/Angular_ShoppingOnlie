@@ -18,7 +18,8 @@
                 <td>{{ user.name }}</td>
                 <td>{{ user.genre == false ? "Mujer" : "Hombre" }}</td>
                 <td class="d-flex gap-5">
-                    <p-button icon="pi pi-pencil" (click)="showEditingModal(user.id)" styleClass="p-button-primary"></p-button>
+                    <p-button icon="pi pi-pencil" (click)="showEditingModal(user)"
+                        styleClass="p-button-primary"></p-button>
                     <p-button icon="pi pi-trash" (click)="deleteUser(user.id)" styleClass="p-button-danger"></p-button>
                 </td>
             </tr>
@@ -26,18 +27,21 @@
     </p-table>
 </div>
 
-<!-- User creating modal -->
+<!-- User modal -->
 <div class="card flex justify-content-center">
-    <p-dialog header="Add user" [modal]="true" [(visible)]="userCreatingModal" [style]="{ width: '50vw', height: '340px' }"
-        [draggable]="false" [resizable]="true">
-        <app-user-form />
-    </p-dialog>
-</div>
-
-<!-- User editing modal -->
-<div class="card flex justify-content-center">
-    <p-dialog header="Edit user" [modal]="true" [(visible)]="userEditingModal" [style]="{ width: '50vw', height: '340px' }"
-        [draggable]="false" [resizable]="true">
-        <app-user-form [user]="user" />
+    <p-dialog header="User details" [modal]="true" [(visible)]="userModal"
+        [style]="{ width: '50vw', height: '340px' }" [draggable]="false" [resizable]="true">
+        <ng-template pTemplate="content">
+            <form [formGroup]="userForm" class="d-flex flex-column">
+                <label>Name</label>
+                <input pInputText [(ngModel)]="user.name" type="text" class="p-inputtext-sm" formControlName="name"
+                    id="name" />
+                <label for="">Are you a man?</label>
+                <p-dropdown [options]="genreOptions" formControlName="genre" [(ngModel)]="user.genre" name="genre" id="genre"></p-dropdown>
+                <div style="text-align: end;">
+                    <p-button type="submit" icon="pi pi-plus" (click)="saveUser(user)" label="Add user"></p-button>
+                </div>
+            </form>
+        </ng-template>
     </p-dialog>
 </div>

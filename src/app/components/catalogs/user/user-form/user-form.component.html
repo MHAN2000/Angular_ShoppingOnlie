@@ -1,9 +1,0 @@
-<form [formGroup]="userForm" class="d-flex flex-column">
-    <label>Name</label>
-    <input pInputText type="text" class="p-inputtext-sm" [value]="user?.name" formControlName="name" id="name" />
-    <label for="">Are you a man?</label>
-    <p-dropdown [options]="genreOptions" [(ngModel)]="selectedGenre" formControlName="genre" id="genre"></p-dropdown>
-    <div style="text-align: end;">
-        <p-button type="submit" icon="pi pi-plus" label="Add user"></p-button>
-    </div>
-</form>

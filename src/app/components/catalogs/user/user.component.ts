@@ -4,6 +4,11 @@ import { UserService } from './user.service';
 import Swal from 'sweetalert2';
 import { FormControl, FormGroup } from '@angular/forms';
 
+interface IGenreOption {
+  value: boolean | null,
+  label: string,
+}
+
 @Component({
   selector: 'app-user',
   templateUrl: './user.component.html',
@@ -11,13 +16,33 @@ import { FormControl, FormGroup } from '@angular/forms';
 })
 export class UserComponent {
   users: IUser[] = [];
-  userCreatingModal: boolean = false;
-  userEditingModal: boolean = false;
-  user: IUser | undefined;
+  userModal: boolean = false;
+  user!: IUser;
+  userForm: FormGroup;
+  creating: boolean = true;
+  genreOptions: IGenreOption[] = [
+    {
+      value: null,
+      label: 'Choose an option'
+    },
+    {
+      value: false,
+      label: 'No'
+    },
+    {
+      value: true,
+      label: 'Yes',
+    }
+  ];
 
   constructor(
     private userService: UserService
-  ) { }
+  ) {
+    this.userForm = new FormGroup({
+      name: new FormControl(''),
+      genre: new FormControl(''),
+    })
+  }
 
   ngOnInit(): void {
     // Fetch Users from database
@@ -27,17 +52,44 @@ export class UserComponent {
   }
 
   showCreatingModal(): void {
-    this.userCreatingModal = true;
+    this.user = {} as IUser;
+    this.userModal = true;
+    this.creating = true;
+
   }
 
-  showEditingModal(id: number): void {
-    Swal.showLoading();
-    // Fetch user by id
-    this.userService.getUser(id).subscribe(user => {
-      Swal.close();
-      this.user = user;
-      this.userEditingModal = true;
-    });
+  showEditingModal(user: IUser): void {
+    this.user = { ...user };
+    this.userModal = true;
+    this.creating = false;
+  }
+
+  async saveUser(user: IUser): Promise<void> {
+    if (this.creating) {
+      // Create user
+      this.userService.addUser(this.userForm).subscribe(
+        () => {
+          // Add the just created user to the the users array
+          this.users = [...this.users, user];
+          // Close the modal
+          this.userModal = false;
+          Swal.fire('Success', 'The user has been added successfully', 'success');
+        },
+        err => Swal.fire('Error', `An error has ocurred, ${err}`, 'error'))
+      return;
+    }
+    // Update user
+    this.userService.updateUser(this.userForm, user.id).subscribe(
+      (user) => {
+        // Find index
+        let index = this.users.findIndex(u => u.id === user.id);
+        // Update the users array
+        this.users[index] = user;
+        // Close the modal
+        this.userModal = false;
+        Swal.fire('Success', 'The user has been updated successfully', 'success');
+      }
+    )
   }
 
   async deleteUser(id: number): Promise<void> {
@@ -47,7 +99,8 @@ export class UserComponent {
       showConfirmButton: true,
       showDenyButton: true,
       confirmButtonText: 'Yes, delete it',
-      denyButtonText: 'No, cancel'
+      denyButtonText: 'No, cancel',
+      allowOutsideClick: false
     });
     // If the user clicked 'No, cancel', exit method
     if (userResponse.isDenied) return;
@@ -60,24 +113,5 @@ export class UserComponent {
         icon: 'success'
       });
     });
-
-
-    
   }
-
-  // addUser(): void {
-  //   this.userService.addUser(this.userForm).subscribe(user => {
-  //     Swal.fire({
-  //       title: 'Success',
-  //       text: 'The user has been added successfully',
-  //       icon: 'success'
-  //     });
-  //     // Append the created user to the users array
-  //     this.users = [...this.users, user];
-  //   }, error => {
-  //     console.log('An error has ocurred');
-  //   })
-  // }
-
-
 }

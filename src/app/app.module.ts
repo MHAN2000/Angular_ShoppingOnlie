@@ -11,7 +11,6 @@ import { HomeComponent } from './components/home/home.component';
 import { TopSellingProductsComponent } from './components/home/top-selling-products/top-selling-products.component';
 import { ProductComponent } from './components/catalogs/product/product.component';
 import { ReactiveFormsModule } from '@angular/forms';
-import { UserFormComponent } from './components/catalogs/user/user-form/user-form.component';
 import { ProductFormComponent } from './components/catalogs/product/product-form/product-form.component';
 
 @NgModule({
@@ -22,7 +21,6 @@ import { ProductFormComponent } from './components/catalogs/product/product-form
     HomeComponent,
     TopSellingProductsComponent,
     ProductComponent,
-    UserFormComponent,
     ProductFormComponent
   ],
   imports: [
