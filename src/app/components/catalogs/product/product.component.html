@@ -5,7 +5,7 @@
 <p-divider />
 
 <div class="card">
-    <p-table [value]="products" [tableStyle]="{ 'min-width': '50rem' }">
+    <p-table [value]="products" [tableStyle]="{ 'min-width': '50rem' }" styleClass="p-datatable-sm">
         <ng-template pTemplate="header">
             <tr>
                 <th width="40%">Product name</th>
@@ -15,14 +15,15 @@
                 <th></th>
             </tr>
         </ng-template>
-        <ng-template pTemplate="body" let-product>
+        <ng-template pTemplate="body" let-tProduct>
             <tr>
-                <td>{{ product.productName }}</td>
-                <td>{{ product.description }}</td>
-                <td>${{ (product.unitPrice) }}</td>
-                <td>{{ product.quantity }}</td>
+                <td>{{ tProduct.productName }}</td>
+                <td>{{ tProduct.description }}</td>
+                <td>${{ (tProduct.unitPrice) }}</td>
+                <td>{{ tProduct.quantity }}</td>
                 <td class="d-flex gap-5">
-                    <p-button icon="pi pi-pencil" styleClass="p-button-primary"></p-button>
+                    <p-button icon="pi pi-pencil" (click)="showEditingModal(tProduct)"
+                        styleClass="p-button-primary"></p-button>
                     <p-button icon="pi pi-trash" styleClass="p-button-danger"></p-button>
                 </td>
             </tr>
@@ -32,8 +33,23 @@
 
 <!-- Product creating modal -->
 <div class="card flex justify-content-center">
-    <p-dialog header="Add product" [modal]="true" [(visible)]="productCreatingModal"
-        [style]="{ width: '50vw', height: '340px' }" [draggable]="false" [resizable]="true">
-        <app-product-form />
+    <p-dialog header="Add product" [modal]="true" [(visible)]="productModal"
+        [style]="{ width: '50vw', height: '430px' }" [draggable]="false" [resizable]="true">
+        <ng-template pTemplate="content">
+            <form [formGroup]="productForm" class="d-flex flex-column">
+                <label>Product name</label>
+                <input pInputText type="text" [(ngModel)]="product.productName" class="p-inputtext-sm" formControlName="productName"
+                    id="productName" />
+                <label for="">Description</label>
+                <input pInputText type="text" [(ngModel)]="product.description" class="p-inputtext-sm" formControlName="description" id="description" />
+                <label>Unit price</label>
+                <input pInputText type="number" [(ngModel)]="product.unitPrice" class="p-inputtext-sm" formControlName="unitPrice" id="unitPrice" />
+                <label>Quantity</label>
+                <input pInputText type="number" [(ngModel)]="product.quantity" class="p-inputtext-sm" formControlName="quantity" id="quantity" />
+                <div style="text-align: end; margin-top: 1rem;">
+                    <p-button type="submit" icon="pi pi-plus" label="Save" (click)="saveProduct(product);"></p-button>
+                </div>
+            </form>
+        </ng-template>
     </p-dialog>
 </div>

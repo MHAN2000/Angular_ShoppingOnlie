@@ -13,14 +13,14 @@
                 <th width="10%"></th>
             </tr>
         </ng-template>
-        <ng-template pTemplate="body" let-user>
+        <ng-template pTemplate="body" let-tUser>
             <tr>
-                <td>{{ user.name }}</td>
-                <td>{{ user.genre == false ? "Mujer" : "Hombre" }}</td>
+                <td>{{ tUser.name }}</td>
+                <td>{{ tUser.genre == false ? "Mujer" : "Hombre" }}</td>
                 <td class="d-flex gap-5">
-                    <p-button icon="pi pi-pencil" (click)="showEditingModal(user)"
+                    <p-button icon="pi pi-pencil" (click)="showEditingModal(tUser)"
                         styleClass="p-button-primary"></p-button>
-                    <p-button icon="pi pi-trash" (click)="deleteUser(user.id)" styleClass="p-button-danger"></p-button>
+                    <p-button icon="pi pi-trash" (click)="deleteUser(tUser.id)" styleClass="p-button-danger"></p-button>
                 </td>
             </tr>
         </ng-template>
@@ -39,7 +39,7 @@
                 <label for="">Are you a man?</label>
                 <p-dropdown [options]="genreOptions" formControlName="genre" [(ngModel)]="user.genre" name="genre" id="genre"></p-dropdown>
                 <div style="text-align: end;">
-                    <p-button type="submit" icon="pi pi-plus" (click)="saveUser(user)" label="Add user"></p-button>
+                    <p-button type="submit" icon="pi pi-plus" (click)="saveUser(user)" label="Save"></p-button>
                 </div>
             </form>
         </ng-template>

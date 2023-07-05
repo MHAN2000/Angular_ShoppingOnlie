@@ -45,9 +45,12 @@ export class UserComponent {
   }
 
   ngOnInit(): void {
+    // Show a loading spinner
+    Swal.showLoading();
     // Fetch Users from database
     this.userService.getUsers().subscribe(users => {
       this.users = users;
+      Swal.close();
     })
   }
 
@@ -59,7 +62,7 @@ export class UserComponent {
   }
 
   showEditingModal(user: IUser): void {
-    this.user = { ...user };
+    this.user = user;
     this.userModal = true;
     this.creating = false;
   }
@@ -82,7 +85,7 @@ export class UserComponent {
     this.userService.updateUser(this.userForm, user.id).subscribe(
       (user) => {
         // Find index
-        let index = this.users.findIndex(u => u.id === user.id);
+        const index = this.users.findIndex(u => u.id === user.id);
         // Update the users array
         this.users[index] = user;
         // Close the modal
